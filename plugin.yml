@@ -1,0 +1,17 @@
+name: AuthorizedOP
+api: ["1.0.0", "1.0.8"]
+main: com.github.anders233.AuthorizedOP
+version: "1.0.0"
+author: "Anders"
+load: POSTWORLD
+commands:
+  aop:
+    description: OP授权管理
+    usage: /aop help
+    permission: AuthorizedOP.command.aop
+permissions:
+  AuthorizedOP.Command.aop:
+    description: OP授权管理
+    default: true
+
+
