@@ -9,11 +9,12 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.plugin.PluginBase;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 public class AuthorizedOP extends PluginBase implements Listener {
 
     private static AuthorizedOP instance;
+    private ArrayList<String> aopList = new ArrayList<>();
 
     static AuthorizedOP getInstance() {
         return instance;
@@ -27,6 +28,7 @@ public class AuthorizedOP extends PluginBase implements Listener {
             saveDefaultConfig();
             reloadConfig();
         }
+        this.aopList = (ArrayList<String>) this.getConfig().getStringList("获得OP授权的玩家");
     }
 
     @Override
@@ -42,9 +44,12 @@ public class AuthorizedOP extends PluginBase implements Listener {
                 new AuthorizedTask(this), getConfig().getInt("插件检测速度"));
     }
 
+    public ArrayList<String> getAopList() {
+        return this.aopList;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        List<String> AopList = getConfig().getStringList("获得OP授权的玩家");
         if (getConfig().getBoolean("是否开启指令管理")) {
             if (command.getName().equals("aop")) {
                 if (sender instanceof ConsoleCommandSender) {
@@ -57,19 +62,19 @@ public class AuthorizedOP extends PluginBase implements Listener {
                             case "add":
                                 if (args.length > 1) {
                                     String PlayerName = args[1].toLowerCase();
-                                    if (AopList.contains(PlayerName)) {
+                                    if (this.aopList.contains(PlayerName)) {
                                         sender.sendMessage("§d[授权] §e此玩家已在授权列表！");
                                     } else {
                                         Player player = Server.getInstance().getPlayer(PlayerName);
                                         if (player != null) {
-                                            AopList.add(PlayerName);
-                                            getConfig().set("获得OP授权的玩家", AopList);
+                                            this.aopList.add(PlayerName);
+                                            getConfig().set("获得OP授权的玩家", this.aopList);
                                             getConfig().save();
                                             player.setOp(true);
                                             sender.sendMessage("§d[授权] §e已将:" + PlayerName + "添加到授权列表，并设置为OP");
                                         } else {
-                                            AopList.add(PlayerName);
-                                            getConfig().set("获得OP授权的玩家", AopList);
+                                            this.aopList.add(PlayerName);
+                                            getConfig().set("获得OP授权的玩家", this.aopList);
                                             getConfig().save();
                                             sender.sendMessage("§d[授权] §e已将:" + PlayerName + "添加到授权列表");
                                         }
@@ -81,19 +86,19 @@ public class AuthorizedOP extends PluginBase implements Listener {
                             case "del":
                                 if (args.length > 1) {
                                     String PlayerName = args[1].toLowerCase();
-                                    if (!(AopList.contains(PlayerName))) {
+                                    if (!(aopList.contains(PlayerName))) {
                                         sender.sendMessage("§d[授权] §e此玩家不授权列表！");
                                     } else {
                                         Player player = Server.getInstance().getPlayer(PlayerName);
                                         if (player != null) {
-                                            AopList.remove(PlayerName);
-                                            getConfig().set("获得OP授权的玩家", AopList);
+                                            this.aopList.remove(PlayerName);
+                                            getConfig().set("获得OP授权的玩家", this.aopList);
                                             getConfig().save();
                                             player.setOp(false);
                                             sender.sendMessage("§d[授权] §e已将:" + PlayerName + "从授权列表删除，并删除OP");
                                         } else {
-                                            AopList.remove(PlayerName);
-                                            getConfig().set("获得OP授权的玩家", AopList);
+                                            this.aopList.remove(PlayerName);
+                                            getConfig().set("获得OP授权的玩家", this.aopList);
                                             getConfig().save();
                                             sender.sendMessage("§d[授权] §e已将:" + PlayerName + "从授权列表删除");
                                         }
@@ -104,10 +109,10 @@ public class AuthorizedOP extends PluginBase implements Listener {
                                 break;
                             case "list":
                                 sender.sendMessage("§e==========§d[授权列表]§d==========");
-                                if (AopList.isEmpty()) {
+                                if (this.aopList.isEmpty()) {
                                     sender.sendMessage("\n§e暂无已授权的玩家\n");
                                 } else {
-                                    for (String players : AopList) {
+                                    for (String players : this.aopList) {
                                         sender.sendMessage("§e玩家：§a" + players);
                                     }
                                 }
@@ -126,6 +131,7 @@ public class AuthorizedOP extends PluginBase implements Listener {
                                 break;
                             case "reload":
                                 getConfig().reload();
+                                this.aopList = (ArrayList<String>) this.getConfig().getStringList("获得OP授权的玩家");
                                 sender.sendMessage("§d[授权] §e已重新加载配置文件");
                                 break;
 
