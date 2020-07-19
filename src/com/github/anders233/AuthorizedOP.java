@@ -38,7 +38,8 @@ public class AuthorizedOP extends PluginBase implements Listener {
         getLogger().info("§d非本插件授权的OP一律无效");
         getLogger().info("§e======================");
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getScheduler().scheduleRepeatingTask(new AuthorizedTask(), getConfig().getInt("插件检测速度"));
+        getServer().getScheduler().scheduleRepeatingTask(this,
+                new AuthorizedTask(this), getConfig().getInt("插件检测速度"));
     }
 
     @Override

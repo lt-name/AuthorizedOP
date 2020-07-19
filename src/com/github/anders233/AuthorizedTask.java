@@ -2,9 +2,14 @@ package com.github.anders233;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
-import cn.nukkit.scheduler.Task;
+import cn.nukkit.scheduler.PluginTask;
 
-public class AuthorizedTask extends Task {
+public class AuthorizedTask extends PluginTask<AuthorizedOP> {
+
+    public AuthorizedTask(AuthorizedOP owner) {
+        super(owner);
+    }
+
     @Override
     public void onRun(int i) {
         for (Player player : Server.getInstance().getOnlinePlayers().values()) {
