@@ -57,7 +57,7 @@ public class AuthorizedOP extends PluginBase implements Listener {
                         switch (args[0]) {
                             default:
                             case "help":
-                                sendHelp((ConsoleCommandSender) sender);
+                                sendHelp(sender);
                                 break;
                             case "add":
                                 if (args.length > 1) {
@@ -137,7 +137,7 @@ public class AuthorizedOP extends PluginBase implements Listener {
 
                         }
                     } else {
-                        sendHelp((ConsoleCommandSender) sender);
+                        sendHelp(sender);
                     }
                 } else {
                     sender.sendMessage("§d[授权] §e本指令只能在控制台使用！");
@@ -159,7 +159,7 @@ public class AuthorizedOP extends PluginBase implements Listener {
                             }
                         }
                     } else {
-                        sendHelp((ConsoleCommandSender) sender);
+                        sendHelp(sender);
                     }
                 } else {
                     sender.sendMessage("§d[授权] §e本指令只能在控制台使用！");
@@ -169,7 +169,7 @@ public class AuthorizedOP extends PluginBase implements Listener {
         return true;
     }
 
-    private static void sendHelp(ConsoleCommandSender sender) {
+    private static void sendHelp(CommandSender sender) {
         sender.sendMessage("§e==========§d[授权]§d==========");
         sender.sendMessage("§a/aop §badd §d<玩家> §c- §e添加授权OP");
         sender.sendMessage("§a/aop §bdel §d<玩家> §c- §e删除授权OP");
